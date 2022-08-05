@@ -1,4 +1,14 @@
-body {
-  margin: 0;
-  padding: 0;
-}
+@import url("https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900");
+@import url("./styles/app-assets/css/vendors.css");
+@import url("./styles/app-assets/css/app.css");
+@import url("./styles/app-assets/css/core/menu/menu-types/vertical-menu.css");
+@import url("./styles/app-assets/css/plugins/calendars/fullcalendar.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css");
+@import url("./styles/app-assets/vendors/css/calendars/fullcalendar.min.css");
+@import url("./styles/app-assets/vendors/css/calendars/fullcalendar.min.css");
+@import url("./styles/assets/css/style.css");
+@import url("./styles/assets/css/new.css");
+@import url("./styles/app-assets/vendors/css/tables/datatable/datatables.min.css");
+@import url("./styles/css/style.css");

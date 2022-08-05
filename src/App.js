@@ -1,8 +1,8 @@
+import Router from "./Router";
+
 function App() {
   return (
-    <div>
-      hello world
-    </div>
+    <Router />
   );
 }
 

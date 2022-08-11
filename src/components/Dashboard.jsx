@@ -1,6 +1,17 @@
-import React from "react";
+import {
+  ALLORDERS,
+  ALLPRODUCTS,
+  TOTALSALES,
+  USERS,
+} from "../assets/Helpers/apiUrls";
+import { useGetApi } from "../assets/Hooks/useGetApi";
 
 function Dashboard() {
+  const orders = useGetApi(ALLORDERS);
+  const products = useGetApi(ALLPRODUCTS);
+  const users = useGetApi(`${USERS}/?limit=100&page=1`);
+  const total = useGetApi(TOTALSALES);
+
   return (
     <>
       <section id="configuration">
@@ -17,7 +28,9 @@ function Dashboard() {
                       alt=""
                       className="img-fluid mt-1"
                     />
-                    <h3 className="mt-1">$562,949.24</h3>
+                    <h3 className="mt-1">
+                      ${total.status === true && total?.detail[0]?.totalSales}
+                    </h3>
                   </div>
                 </div>
               </div>
@@ -30,7 +43,7 @@ function Dashboard() {
                       alt=""
                       className="img-fluid mt-1"
                     />
-                    <h3 className="mt-1">314</h3>
+                    <h3 className="mt-1">{orders?.detail?.length}</h3>
                   </div>
                 </div>
               </div>
@@ -43,7 +56,7 @@ function Dashboard() {
                       alt=""
                       className="img-fluid mt-1"
                     />
-                    <h3 className="mt-1">52</h3>
+                    <h3 className="mt-1">{products?.detail?.length}</h3>
                   </div>
                 </div>
               </div>
@@ -56,14 +69,14 @@ function Dashboard() {
                       alt=""
                       className="img-fluid mt-1"
                     />
-                    <h3 className="mt-1">453</h3>
+                    <h3 className="mt-1">{users?.detail?.docs?.length}</h3>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="card  pad-20 mt-2 rounded-0">
+        {/* <div className="card  pad-20 mt-2 rounded-0">
           <div className="card-content collapse show">
             <div className="card-body table-responsive card-dashboard">
               <h1 className="pull-left black bold mt-2">
@@ -85,76 +98,8 @@ function Dashboard() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </section>
-      <div className="card jost pad-20 mt-2 rounded-1">
-        <div className="card-content collapse show">
-          <div className="card-body table-responsive card-dashboard">
-            <h3 className="pull-left black mt-2">
-              <i className="fas fa-shopping-cart" /> Latest Orders
-            </h3>
-            <div className="clearfix" />
-            <div className="clearfix" />
-            <div>
-              <table className="table table-striped table-bordered zero-configuration">
-                <thead>
-                  <tr>
-                    <th className="d-grey bold">S.NO</th>
-                    <th className="d-grey bold">Order Id</th>
-                    <th className="d-grey bold">customer</th>
-                    <th className="d-grey bold">status</th>
-                    <th className="d-grey bold">total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="py-0">01</td>
-                    <td className="py-0">454</td>
-                    <td className="py-0">Bran</td>
-                    <td className="py-0">Pending</td>
-                    <td className="py-0">$163</td>
-                  </tr>
-                  <tr>
-                    <td className="py-0">01</td>
-                    <td className="py-0">454</td>
-                    <td className="py-0">Bran</td>
-                    <td className="py-0">Pending</td>
-                    <td className="py-0">$163</td>
-                  </tr>
-                  <tr>
-                    <td className="py-0">01</td>
-                    <td className="py-0">454</td>
-                    <td className="py-0">Bran</td>
-                    <td className="py-0"> Pending</td>
-                    <td className="py-0">$163</td>
-                  </tr>
-                  <tr>
-                    <td className="py-0">01</td>
-                    <td className="py-0">454</td>
-                    <td className="py-0">Bran</td>
-                    <td className="py-0">Pending </td>
-                    <td className="py-0">$163</td>
-                  </tr>
-                  <tr>
-                    <td className="py-0">01</td>
-                    <td className="py-0">454</td>
-                    <td className="py-0">Bran</td>
-                    <td className="py-0">Pending</td>
-                    <td className="py-0">$163</td>
-                  </tr>
-                  <tr>
-                    <td className="py-0">01</td>
-                    <td className="py-0">454</td>
-                    <td className="py-0">Bran</td>
-                    <td className="py-0">Pending</td>
-                    <td className="py-0">$163</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
     </>
   );
 }

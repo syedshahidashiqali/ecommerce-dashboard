@@ -37,8 +37,6 @@ function Users() {
           <input
             type="text"
             className="ml-1 px-1 h-45 py-0"
-            name
-            id
             placeholder="Enter User Id"
           />
         </div>
@@ -48,7 +46,7 @@ function Users() {
           <div className="card-body table-responsive card-dashboard">
             <div className="clearfix" />
             <div className="clearfix" />
-            <div className>
+            <div>
               <table className="table table-striped table-bordered zero-configuration">
                 <thead>
                   <tr>
@@ -62,11 +60,11 @@ function Users() {
                   {users?.detail?.docs.map((user) => {
                     return (
                       <tr key={user._id}>
-                        <td className="py-0">{user?._id}</td>
-                        <td className="py-0">{user?.username}</td>
-                        <td className="py-0">{user?.email}</td>
-                        <td className="py-0">{user?.role}</td>
-                        <td className="py-0">
+                        <td className="py-1">{user?._id}</td>
+                        <td className="py-1">{user?.username}</td>
+                        <td className="py-1">{user?.email}</td>
+                        <td className="py-1">{user?.role}</td>
+                        <td className="py-1">
                           <div className="btn-group mr-1 mb-1">
                             <button
                               type="button"
@@ -90,9 +88,6 @@ function Users() {
                             >
                               <a
                                 className="dropdown-item uppercase"
-                                // href="#_"
-                                // data-toggle="modal"
-                                // data-target="#blockUser"
                                 onClick={() => delUser(user?._id)}
                               >
                                 <i className="fa fa-ban" />
@@ -215,7 +210,7 @@ function Users() {
               <h3 className="jost bold mt-1 clr-orange">Alert</h3>
               <p className="d-blue mt-1 medium ">User has been Blocked</p>
               <div className="d-flex flex-wrap justify-content-center">
-                <a href data-dismiss="modal" aria-label="Close">
+                <a data-dismiss="modal" aria-label="Close">
                   <button className="px-4 mx-1 py-1 mt-2">Got It</button>
                 </a>
               </div>

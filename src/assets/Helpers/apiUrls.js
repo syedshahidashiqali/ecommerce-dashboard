@@ -17,6 +17,7 @@ export const PRODUCTUPDATE = getApiURL("/products/product")
 // orders endpoints
 export const ALLORDERS = getApiURL("/orders/all")
 export const ORDER = getApiURL("/orders")
+export const TOTALSALES = getApiURL("/orders/purchases/all")
 
 // reviews endpoints
 export const ALLREVIEWS = getApiURL("/reviews/product")

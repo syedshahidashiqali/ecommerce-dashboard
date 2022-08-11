@@ -198,7 +198,7 @@ function Reviews() {
       <hr />
       {reviews?.detail?.map((review) => {
         return (
-          <div className="row">
+          <div className="row" key={review?._id}>
             <div className="col-lg-11">
               <div className="reviews-card p-2">
                 <div className="row">

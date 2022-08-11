@@ -12,3 +12,11 @@
 @import url("./styles/assets/css/new.css");
 @import url("./styles/app-assets/vendors/css/tables/datatable/datatables.min.css");
 @import url("./styles/css/style.css");
+@import url("./styles/app-assets/css/vendors.css");
+@import url("./styles/app-assets/css/app.css");
+@import url("./styles/app-assets/css/core/menu/menu-types/vertical-menu.css");
+@import url("./styles/app-assets/css/plugins/calendars/fullcalendar.css");
+@import url("./styles/app-assets/vendors/css/calendars/fullcalendar.min.css");
+@import url("./styles/assets/css/style.css");
+@import url("./styles/assets/css/new.css");
+@import url("./styles/css/style.css");

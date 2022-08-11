@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 function Sidebar() {
@@ -21,14 +20,14 @@ function Sidebar() {
     },
     {
       title: "Users",
-      icon: "images/products-icon.png",
+      icon: "images/user-icon.png",
       cName: "nav-item",
       path: "/users",
     },
     {
       title: "Products",
       path: "/products",
-      icon: "images/shopping-bag.png",
+      icon: "images/products-icon.png",
       cName: "nav-item",
     },
     {

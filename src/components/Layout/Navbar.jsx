@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 function Navbar() {
   return (
     <nav className="header-navbar navbar-expand-md navbar navbar-with-menu fixed-top black_bck navbar-border">

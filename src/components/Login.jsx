@@ -18,6 +18,7 @@ function Login() {
       navigate("/dashboard", { replace: true });
     }
   }, [localStorage.getItem("TOKEN")]);
+
   const [showPassword, setShowPassword] = useState(false);
 
   // const updateState = (data) => {

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { getApi } from "../Helpers/api";
 
 export const useGetApi = (url) => {
-  const [response, setResponse] = useState([]);
+  const [response, setResponse] = useState({});
 
   useEffect(() => {
     const getData = async () => {
@@ -11,7 +11,6 @@ export const useGetApi = (url) => {
       setResponse(data);
     };
     getData();
-  }, [response.length, url]);
-
+  }, [response.status, response.message, url]);
   return response;
 };

@@ -13,6 +13,7 @@ export const ALLPRODUCTS = getApiURL("/products")
 export const PRODUCT = getApiURL("/products/product")
 export const PRODUCTSEDIT = getApiURL("/products/product")
 export const PRODUCTUPDATE = getApiURL("/products/product")
+export const CREATEPRODUCT = getApiURL("/products/add")
 
 // orders endpoints
 export const ALLORDERS = getApiURL("/orders/all")
@@ -21,3 +22,4 @@ export const TOTALSALES = getApiURL("/orders/purchases/all")
 
 // reviews endpoints
 export const ALLREVIEWS = getApiURL("/reviews/product")
+export const AVERAGERATING = getApiURL("/reviews/averageRating/single")

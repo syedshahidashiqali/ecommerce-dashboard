@@ -2,13 +2,15 @@ import { useState } from "react";
 import { deleteApi } from "../assets/Helpers/api";
 import { DELUSERS, USERS } from "../assets/Helpers/apiUrls";
 import { useGetApi } from "../assets/Hooks/useGetApi";
+import Moment from "react-moment";
 
 function Users() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
+  const [searchProd, setSearchProd] = useState("");
+  const [userUrl, setUserUrl] = useState(USERS);
 
-  const users = useGetApi(`${USERS}?page=${page}&limit=${limit}`);
-
+  const users = useGetApi(userUrl);
   const delUser = async (id) => {
     const res = await deleteApi(`${DELUSERS}/${id}`, "DELETE", {
       "x-access-token": localStorage.getItem("TOKEN"),
@@ -37,7 +39,15 @@ function Users() {
           <input
             type="text"
             className="ml-1 px-1 h-45 py-0"
-            placeholder="Enter User Id"
+            placeholder="Enter Username"
+            value={searchProd}
+            onKeyDown={(e) => {
+              e.key === "Enter" &&
+                setUserUrl(`${USERS}?username=${searchProd}`);
+            }}
+            onChange={(e) => {
+              setSearchProd(e.target.value);
+            }}
           />
         </div>
       </div>
@@ -50,20 +60,22 @@ function Users() {
               <table className="table table-striped table-bordered zero-configuration">
                 <thead>
                   <tr>
-                    <th className="d-grey bold">ID</th>
                     <th className="d-grey bold">Username</th>
                     <th className="d-grey bold">Email</th>
                     <th className="d-grey bold">Role</th>
+                    <th className="d-grey bold">Registered on</th>
                   </tr>
                 </thead>
                 <tbody>
                   {users?.detail?.docs.map((user) => {
                     return (
                       <tr key={user._id}>
-                        <td className="py-1">{user?._id}</td>
                         <td className="py-1">{user?.username}</td>
                         <td className="py-1">{user?.email}</td>
                         <td className="py-1">{user?.role}</td>
+                        <td className="py-1">
+                          <Moment format="DD-MM-YYYY">{user?.createdAt}</Moment>
+                        </td>
                         <td className="py-1">
                           <div className="btn-group mr-1 mb-1">
                             <button

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
@@ -51,19 +52,20 @@ function Navbar() {
                   </span>
                 </a>
                 <div className="dropdown-menu dropdown-menu-right">
-                  <a className="dropdown-item" href="profile.html">
+                  {/* <a className="dropdown-item" href="profile.html">
                     <i className="fas fa-user-circle" />
                     Profile
-                  </a>
-                  <a
+                  </a> */}
+                  <Link
                     className="dropdown-item"
-                    href="#_"
-                    data-toggle="modal"
-                    data-target="#logout"
+                    to={"/"}
+                    // href="#_"
+                    // data-toggle="modal"
+                    // data-target="#logout"
                   >
                     <i className="fas fa-sign-out-alt" />
                     Logout
-                  </a>
+                  </Link>
                 </div>
               </li>
               <li className="nav-item d-none d-md-block">

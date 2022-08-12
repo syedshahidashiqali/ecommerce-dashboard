@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { ALLREVIEWS, PRODUCT } from "../assets/Helpers/apiUrls";
+import { ALLREVIEWS, AVERAGERATING, PRODUCT } from "../assets/Helpers/apiUrls";
 import { useGetApi } from "../assets/Hooks/useGetApi";
 import { ratingFilter } from "../assets/Utils/helpers";
 import Moment from "react-moment";
@@ -8,6 +8,7 @@ function Reviews() {
   const { productId } = useParams();
   const reviews = useGetApi(`${ALLREVIEWS}/${productId}`);
   const product = useGetApi(`${PRODUCT}/${productId}`);
+  const avgRating = useGetApi(`${AVERAGERATING}/${productId}`);
 
   const stars5 = ratingFilter(reviews?.detail, 5);
   const stars4 = ratingFilter(reviews?.detail, 4);
@@ -58,7 +59,12 @@ function Reviews() {
         </div>
       </div>
       <div className="row align-items-center mt-2">
-        <p className="p_md clr-orange medium ml-1">(2.9/5)</p>
+        <p className="p_md clr-orange medium ml-1">
+          (
+          {avgRating.status === true &&
+            avgRating?.detail[0].averageRatingOfProducts}
+          /5)
+        </p>
         <div className="rating ml-1">
           <input type="radio" id="star5" name="rating" defaultValue={5} />
           <label htmlFor="star5" title="Meh">

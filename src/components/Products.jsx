@@ -1,11 +1,13 @@
-import React from "react";
+import { useState } from "react";
 import { ALLPRODUCTS } from "../assets/Helpers/apiUrls";
 import { useGetApi } from "../assets/Hooks/useGetApi";
 import { format } from "timeago.js";
 import { Link } from "react-router-dom";
 
 function Products() {
-  const products = useGetApi(ALLPRODUCTS);
+  const [prodUrl, setProdUrl] = useState(ALLPRODUCTS);
+  const [searchProd, setSearchProd] = useState("");
+  const products = useGetApi(prodUrl);
 
   return (
     <>
@@ -22,15 +24,19 @@ function Products() {
           <p className="grey ml-1">Entries</p>
         </div>
         <div className="d-flex align-items-center flex-wrap">
-          <a href="create-product.html">
+          <Link to={"/products/add"}>
             <button className="px-2 h-45 py-0">Create Products</button>
-          </a>
+          </Link>
           <input
             type="text"
             className="ml-1 px-1 h-45 py-0"
-            name=""
-            id=""
             placeholder="Search"
+            value={searchProd}
+            onChange={(e) => setSearchProd(e.target.value)}
+            onKeyDown={(e) => {
+              e.key === "Enter" &&
+                setProdUrl(`${ALLPRODUCTS}/?name=${searchProd}`);
+            }}
           />
         </div>
       </div>

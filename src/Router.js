@@ -7,6 +7,7 @@ import DashboardPage from "./pages/DashboardPage";
 import LoginPage from "./pages/LoginPage"
 import OrdersPage from "./pages/OrdersPage";
 import OrderViewPage from "./pages/OrderViewPage";
+import ProductCreatePage from "./pages/ProductCreatePage";
 import ProductEditPage from "./pages/ProductEditPage";
 import ProductsPage from "./pages/ProductsPage";
 import ReviewsPage from "./pages/ReviewsPage";
@@ -70,6 +71,14 @@ function Router() {
         element={
           <PrivateRoutes>
             <ReviewsPage />
+          </PrivateRoutes>
+        }
+      />
+      <Route
+        path="/products/add"
+        element={
+          <PrivateRoutes>
+            <ProductCreatePage />
           </PrivateRoutes>
         }
       />

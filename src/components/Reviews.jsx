@@ -1,7 +1,12 @@
 import { useParams } from "react-router-dom";
-import { ALLREVIEWS, AVERAGERATING, PRODUCT } from "../assets/Helpers/apiUrls";
+import {
+  ALLRATINGCOUNTS,
+  ALLREVIEWS,
+  AVERAGERATING,
+  PRODUCT,
+} from "../assets/Helpers/apiUrls";
 import { useGetApi } from "../assets/Hooks/useGetApi";
-import { ratingFilter } from "../assets/Utils/helpers";
+// import { ratingFilter } from "../assets/Utils/helpers";
 import Moment from "react-moment";
 
 function Reviews() {
@@ -10,11 +15,13 @@ function Reviews() {
   const product = useGetApi(`${PRODUCT}/${productId}`);
   const avgRating = useGetApi(`${AVERAGERATING}/${productId}`);
 
-  const stars5 = ratingFilter(reviews?.detail, 5);
-  const stars4 = ratingFilter(reviews?.detail, 4);
-  const stars3 = ratingFilter(reviews?.detail, 3);
-  const stars2 = ratingFilter(reviews?.detail, 2);
-  const stars1 = ratingFilter(reviews?.detail, 1);
+  // const stars5 = ratingFilter(reviews?.detail, 5);
+  // const stars4 = ratingFilter(reviews?.detail, 4);
+  // const stars3 = ratingFilter(reviews?.detail, 3);
+  // const stars2 = ratingFilter(reviews?.detail, 2);
+  // const stars1 = ratingFilter(reviews?.detail, 1);
+
+  const { detail } = useGetApi(`${ALLRATINGCOUNTS}/${productId}/5`);
   return (
     <>
       <h3 className="pull-left bold uppercase black mt-2">Products</h3>
@@ -89,7 +96,9 @@ function Reviews() {
         </div>
       </div>
       <div className="row align-items-center">
-        <p className="p_md clr-orange ml-1">{stars5}</p>
+        <p className="p_md clr-orange ml-1">
+          {detail !== undefined && detail?.rating5}
+        </p>
         <div className="ml-2">
           <i className="fas fa-star clr-orange" />
           <i className="fas fa-star clr-orange" />
@@ -111,7 +120,9 @@ function Reviews() {
         </div>
       </div>
       <div className="row align-items-center">
-        <p className="p_md clr-orange ml-1">{stars4}</p>
+        <p className="p_md clr-orange ml-1">
+          {detail !== undefined && detail?.rating4}
+        </p>
         <div className="ml-2">
           <i className="fas fa-star clr-orange" />
           <i className="fas fa-star clr-orange" />
@@ -133,7 +144,9 @@ function Reviews() {
         </div>
       </div>
       <div className="row align-items-center">
-        <p className="p_md clr-orange ml-1">{stars3}</p>
+        <p className="p_md clr-orange ml-1">
+          {detail !== undefined && detail?.rating3}
+        </p>
         <div className="ml-2">
           <i className="fas fa-star clr-orange" />
           <i className="fas fa-star clr-orange" />
@@ -155,7 +168,9 @@ function Reviews() {
         </div>
       </div>
       <div className="row align-items-center">
-        <p className="p_md clr-orange ml-1">{stars2}</p>
+        <p className="p_md clr-orange ml-1">
+          {detail !== undefined && detail?.rating2}
+        </p>
         <div className="ml-2">
           <i className="fas fa-star clr-orange" />
           <i className="fas fa-star clr-orange" />
@@ -177,7 +192,9 @@ function Reviews() {
         </div>
       </div>
       <div className="row align-items-center">
-        <p className="p_md clr-orange ml-1">{stars1}</p>
+        <p className="p_md clr-orange ml-1">
+          {detail !== undefined && detail?.rating1}
+        </p>
         <div className="ml-2">
           <i className="fas fa-star clr-orange" />
           <i className="far fa-star l-grey" />

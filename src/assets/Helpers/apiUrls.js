@@ -23,3 +23,4 @@ export const TOTALSALES = getApiURL("/orders/purchases/all")
 // reviews endpoints
 export const ALLREVIEWS = getApiURL("/reviews/product")
 export const AVERAGERATING = getApiURL("/reviews/averageRating/single")
+export const ALLRATINGCOUNTS = getApiURL("/reviews/allRatings/single")

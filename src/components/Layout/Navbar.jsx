@@ -1,7 +1,7 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const navigate = useNavigate();
   return (
     <nav className="header-navbar navbar-expand-md navbar navbar-with-menu fixed-top black_bck navbar-border">
       <div className="navbar-wrapper">
@@ -56,22 +56,17 @@ function Navbar() {
                     <i className="fas fa-user-circle" />
                     Profile
                   </a> */}
-                  <Link
+                  <a
                     className="dropdown-item"
-                    to={"/"}
-                    // href="#_"
-                    // data-toggle="modal"
-                    // data-target="#logout"
+                    onClick={() => {
+                      localStorage.clear();
+                      navigate("/", { replace: true });
+                    }}
                   >
                     <i className="fas fa-sign-out-alt" />
                     Logout
-                  </Link>
+                  </a>
                 </div>
-              </li>
-              <li className="nav-item d-none d-md-block">
-                <a className="nav-link nav-menu-main menu-toggle hidden-xs">
-                  <i className="ft-menu" />
-                </a>
               </li>
             </ul>
           </div>

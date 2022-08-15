@@ -6,22 +6,35 @@ import {
   PRODUCT,
 } from "../assets/Helpers/apiUrls";
 import { useGetApi } from "../assets/Hooks/useGetApi";
-// import { ratingFilter } from "../assets/Utils/helpers";
 import Moment from "react-moment";
+import { useEffect, useState } from "react";
+import {
+  getAllRatings,
+  getAvgRating,
+  getProduct,
+  getReviews,
+} from "../assets/Services/Products";
 
 function Reviews() {
   const { productId } = useParams();
-  const reviews = useGetApi(`${ALLREVIEWS}/${productId}`);
-  const product = useGetApi(`${PRODUCT}/${productId}`);
-  const avgRating = useGetApi(`${AVERAGERATING}/${productId}`);
+  const [reviews, setReviews] = useState([]);
+  const [product, setProduct] = useState([]);
+  const [avgRating, setAvgRating] = useState([]);
+  const [allRatings, setAllRatings] = useState([]);
+  const fetchData = async () => {
+    const { detail: reviews } = await getReviews(productId);
+    const { detail: product } = await getProduct(productId);
+    const { detail: avgRating } = await getAvgRating(productId);
+    const { detail: allRatings } = await getAllRatings(productId);
+    setReviews(reviews);
+    setProduct(product);
+    setAvgRating(avgRating);
+    setAllRatings(allRatings);
+  };
 
-  // const stars5 = ratingFilter(reviews?.detail, 5);
-  // const stars4 = ratingFilter(reviews?.detail, 4);
-  // const stars3 = ratingFilter(reviews?.detail, 3);
-  // const stars2 = ratingFilter(reviews?.detail, 2);
-  // const stars1 = ratingFilter(reviews?.detail, 1);
-
-  const { detail } = useGetApi(`${ALLRATINGCOUNTS}/${productId}/5`);
+  useEffect(() => {
+    fetchData();
+  }, [reviews?.length, product?._id, avgRating?.length, allRatings?.length]);
   return (
     <>
       <h3 className="pull-left bold uppercase black mt-2">Products</h3>
@@ -41,7 +54,7 @@ function Reviews() {
       </div>
       <hr />
       <div className="clearfix" />
-      <h4 className="pull-left medium p_lg black">{product?.detail?.name}</h4>
+      <h4 className="pull-left medium p_lg black">{product?.name}</h4>
       <div className="clearfix" />
       <div className="row">
         <div className="col-xl-2 col-md-3">
@@ -59,17 +72,13 @@ function Reviews() {
           <h4 className="p_sm black bold mt-1">Description:</h4>
         </div>
         <div className="mt-2 col-lg-2 col-md-3">
-          <h4 className="p_sm l-grey bold mt-1">${product?.detail?.price}</h4>
-          <h4 className="p_sm l-grey bold mt-1">
-            {product?.detail?.description}
-          </h4>
+          <h4 className="p_sm l-grey bold mt-1">${product?.price}</h4>
+          <h4 className="p_sm l-grey bold mt-1">{product?.description}</h4>
         </div>
       </div>
       <div className="row align-items-center mt-2">
         <p className="p_md clr-orange medium ml-1">
-          (
-          {avgRating.status === true &&
-            avgRating?.detail[0].averageRatingOfProducts}
+          ({avgRating[0]?.averageRatingOfProducts.toFixed(2)}
           /5)
         </p>
         <div className="rating ml-1">
@@ -96,9 +105,7 @@ function Reviews() {
         </div>
       </div>
       <div className="row align-items-center">
-        <p className="p_md clr-orange ml-1">
-          {detail !== undefined && detail?.rating5}
-        </p>
+        <p className="p_md clr-orange ml-1">{allRatings[0]?.star_5}</p>
         <div className="ml-2">
           <i className="fas fa-star clr-orange" />
           <i className="fas fa-star clr-orange" />
@@ -120,9 +127,7 @@ function Reviews() {
         </div>
       </div>
       <div className="row align-items-center">
-        <p className="p_md clr-orange ml-1">
-          {detail !== undefined && detail?.rating4}
-        </p>
+        <p className="p_md clr-orange ml-1">{allRatings[0]?.star_4}</p>
         <div className="ml-2">
           <i className="fas fa-star clr-orange" />
           <i className="fas fa-star clr-orange" />
@@ -144,9 +149,7 @@ function Reviews() {
         </div>
       </div>
       <div className="row align-items-center">
-        <p className="p_md clr-orange ml-1">
-          {detail !== undefined && detail?.rating3}
-        </p>
+        <p className="p_md clr-orange ml-1">{allRatings[0]?.star_3}</p>
         <div className="ml-2">
           <i className="fas fa-star clr-orange" />
           <i className="fas fa-star clr-orange" />
@@ -168,9 +171,7 @@ function Reviews() {
         </div>
       </div>
       <div className="row align-items-center">
-        <p className="p_md clr-orange ml-1">
-          {detail !== undefined && detail?.rating2}
-        </p>
+        <p className="p_md clr-orange ml-1">{allRatings[0]?.star_2}</p>
         <div className="ml-2">
           <i className="fas fa-star clr-orange" />
           <i className="fas fa-star clr-orange" />
@@ -192,9 +193,7 @@ function Reviews() {
         </div>
       </div>
       <div className="row align-items-center">
-        <p className="p_md clr-orange ml-1">
-          {detail !== undefined && detail?.rating1}
-        </p>
+        <p className="p_md clr-orange ml-1">{allRatings[0]?.star_1}</p>
         <div className="ml-2">
           <i className="fas fa-star clr-orange" />
           <i className="far fa-star l-grey" />
@@ -215,11 +214,9 @@ function Reviews() {
           </div>
         </div>
       </div>
-      <h4 className="p_sm mt-2 black bold">
-        {reviews?.detail?.length} Reviews
-      </h4>
+      <h4 className="p_sm mt-2 black bold">{reviews?.length} Reviews</h4>
       <hr />
-      {reviews?.detail?.map((review) => {
+      {reviews?.map((review) => {
         return (
           <div className="row" key={review?._id}>
             <div className="col-lg-11">

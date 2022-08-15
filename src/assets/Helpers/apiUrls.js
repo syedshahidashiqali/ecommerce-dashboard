@@ -1,4 +1,4 @@
-export const API_BASED_URL = "http://localhost:8080/api/v1";
+export const API_BASED_URL = "http://localhost:7000/api/v1";
 
 export const getApiURL = (endpoint) => API_BASED_URL + endpoint;
 

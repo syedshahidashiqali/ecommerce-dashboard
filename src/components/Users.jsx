@@ -105,6 +105,41 @@ function Users() {
                 pageChanged={(page) => fetchData(page)}
                 fields={fields}
                 data={usersData}
+                extraHeads={() => <th className="d-grey bold">Action</th>}
+                extraCells={(item) => (
+                  <td className="py-1">
+                    <div className="btn-group mr-1 mb-1">
+                      <button
+                        type="button"
+                        className="btn dropdown-toggle btn-drop-table btn-sm"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        <i className="fa fa-ellipsis-v" />
+                      </button>
+                      <div
+                        className="dropdown-menu"
+                        x-placement="bottom-start"
+                        style={{
+                          position: "absolute",
+                          transform: "translate3d(0px, 21px, 0px)",
+                          top: "0px",
+                          left: "0px",
+                          willChange: "transform",
+                        }}
+                      >
+                        <a
+                          className="dropdown-item uppercase"
+                          onClick={() => delUser(item?._id)}
+                        >
+                          <i className="fa fa-ban" />
+                          Delete
+                        </a>
+                      </div>
+                    </div>
+                  </td>
+                )}
               />
               {/* <table className="table table-striped table-bordered zero-configuration">
                 <thead>

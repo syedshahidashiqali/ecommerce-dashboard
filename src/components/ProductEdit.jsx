@@ -4,10 +4,11 @@ import { useParams } from "react-router-dom";
 import { getApi, updateApi } from "../assets/Helpers/api";
 import { PRODUCT, PRODUCTUPDATE } from "../assets/Helpers/apiUrls";
 import { useGetApi } from "../assets/Hooks/useGetApi";
+import { getProduct } from "../assets/Services/Products";
 
 function ProductEdit() {
   const { productId } = useParams();
-  // const [product, setProduct] = useState();
+  const [product, setProduct] = useState({});
 
   // const fetchData = async () => {
   //   const data = await getApi(`${PRODUCT}/${productId}`);
@@ -20,7 +21,17 @@ function ProductEdit() {
   // }, [product?.message]);
   // console.log(product);
 
-  const product = useGetApi(`${PRODUCT}/${productId}`);
+  // const product = useGetApi(`${PRODUCT}/${productId}`);
+
+  const fetchProduct = async () => {
+    const { detail } = await getProduct(productId);
+    setProduct(detail);
+  };
+
+  useEffect(() => {
+    fetchProduct();
+  }, [product?._id]);
+  console.log(product);
 
   const [productData, setProductData] = useState({
     name: "",
@@ -71,7 +82,7 @@ function ProductEdit() {
           <p className="black p_sm ml-1">Title</p>
         </div>
         <div className="mt-2 col-sm-8">
-          <p className="l-grey p_sm">{product?.detail?.name}</p>
+          <p className="l-grey p_sm">{product?.name}</p>
         </div>
       </div>
       <div className="row align-items-center">
@@ -79,7 +90,7 @@ function ProductEdit() {
           <p className="black p_sm ml-1">Price</p>
         </div>
         <div className="mt-1 col-sm-8">
-          <p className="l-grey p_sm">${product?.detail?.price}</p>
+          <p className="l-grey p_sm">${product?.price}</p>
         </div>
       </div>
       <div className="row align-items-center">
@@ -87,7 +98,7 @@ function ProductEdit() {
           <p className="black p_sm ml-1">Description</p>
         </div>
         <div className="mt-1 col-sm-8">
-          <p className="l-grey p_sm">{product?.detail?.description}</p>
+          <p className="l-grey p_sm">{product?.description}</p>
         </div>
       </div>
       <h4 className="bold grey_bck p-1 mt-4">Set Variations</h4>
@@ -137,48 +148,6 @@ function ProductEdit() {
           </button>
         </a>
       </form>
-      <div
-        className="modal fade"
-        id="logout"
-        tabIndex={-1}
-        role="dialog"
-        aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered " role="document">
-          <div className="modal-content">
-            <button
-              type="button"
-              className="close text-right clr-orange mr-1 mt-1"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-            <div className="px-2 pb-5 text-center">
-              <img src="images/alert.png" alt="" className="img-fluid" />
-              <h3 className="jost bold mt-1 clr-orange">Alert</h3>
-              <p className="d-blue mt-1 medium ">
-                Are you sure you want to Logout?
-              </p>
-              <div className="d-flex flex-wrap justify-content-center">
-                <a href="admin-login.html">
-                  <button className="px-4 mx-1 py-1 mt-2">Yes</button>
-                </a>
-                <a href="#_">
-                  <button
-                    className="px-4 mx-1 py-1 mt-2"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    No
-                  </button>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </>
   );
 }

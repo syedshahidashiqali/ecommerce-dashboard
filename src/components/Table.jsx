@@ -47,7 +47,7 @@ const Table = ({
                     {extraCells(item)}
                   </tr>
                 ))}
-                <NoRecord tag="tr" data={data.data} colspan={colspanFields()} />
+                <NoRecord tag="tr" data={data} colspan={colspanFields()} />
               </>
             ) : (
               <>

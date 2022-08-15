@@ -48,7 +48,7 @@ function TableSearch({ filterValues, onFilterChange, onSearch, onDateChange }) {
             onChange={(e) => handleSearch(e.target.value)}
             type="text"
             className="form-control form-field search"
-            placeholder="Enter username"
+            placeholder="Search"
           />
         </div>
       </div>

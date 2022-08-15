@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { getProducts } from "../assets/Services/Products";
 import Table from "./Table";
 import TableSearch from "./TableSearch";
+import { format_date } from "../assets/Utils/helpers";
 
 function Products() {
   const [prodUrl, setProdUrl] = useState(ALLPRODUCTS);
@@ -40,6 +41,7 @@ function Products() {
     {
       label: "Added On",
       key: "createdAt",
+      format: format_date,
     },
   ];
   return (

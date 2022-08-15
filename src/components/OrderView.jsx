@@ -41,7 +41,7 @@ function OrderView() {
             </div>
             <div className="d-flex mt-2 justify-content-between align-items-center">
               <h4 className="p_sm medium">Customer Email</h4>
-              <p className="p_sm l-grey">{order?.detail?.userId.email}</p>
+              {/* <p className="p_sm l-grey">{order?.detail?.userId.email}</p> */}
             </div>
           </div>
         </div>

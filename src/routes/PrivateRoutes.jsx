@@ -1,18 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "./components/Layout/Navbar";
-import Sidebar from "./components/Layout/Sidebar";
+import { getAccessToken } from "../assets/Utils/helpers";
+import Navbar from "../components/Layout/Navbar";
+import Sidebar from "../components/Layout/Sidebar";
 
-function PrivateRoutes({ children, redirectTo }) {
+function PrivateRoutes({ children }) {
   const navigate = useNavigate();
-  const [token, setToken] = useState(localStorage.getItem("TOKEN"));
-  // const token = localStorage.getItem("TOKEN");
-
   useEffect(() => {
-    if (!token) {
+    if (!getAccessToken()) {
       navigate("/", { replace: true });
     }
-  }, [token]);
+  }, []);
   return (
     <>
       <Navbar />

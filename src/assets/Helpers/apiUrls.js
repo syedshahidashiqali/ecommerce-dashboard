@@ -4,8 +4,8 @@ export const getApiURL = (endpoint) => API_BASED_URL + endpoint;
 
 // auth endpoints
 export const LOGIN = getApiURL("/admin/login")
-export const USERS = getApiURL("/admin/users/all")
 // users endpoints
+export const USERS = getApiURL("/admin/users/all")
 export const DELUSERS = getApiURL("/admin/users/delete")
 
 // products endpoints

@@ -1,27 +1,67 @@
-import { useState } from "react";
-import { deleteApi } from "../assets/Helpers/api";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { deleteApi, getApi } from "../assets/Helpers/api";
 import { DELUSERS, USERS } from "../assets/Helpers/apiUrls";
 import { useGetApi } from "../assets/Hooks/useGetApi";
 import Moment from "react-moment";
+import { useTable } from "react-table";
+import Table from "./Table";
+import { format_date } from "../assets/Utils/helpers";
+import axios from "axios";
+import { getUsers } from "../assets/Services/Users";
+import TableSearch from "./TableSearch";
 
 function Users() {
-  const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [searchProd, setSearchProd] = useState("");
   const [userUrl, setUserUrl] = useState(USERS);
+  const [usersData, setUsersData] = useState([]);
+  const [filterValue, setFilterValue] = useState(null);
 
-  const users = useGetApi(userUrl);
   const delUser = async (id) => {
     const res = await deleteApi(`${DELUSERS}/${id}`, "DELETE", {
       "x-access-token": localStorage.getItem("TOKEN"),
     });
     console.log(res);
   };
+
+  // const { detail, getData } = useGetApi(userUrl);
+  const fields = [
+    {
+      label: "Username",
+      key: "username",
+      // format: (value) => value.name,
+    },
+    {
+      label: "Email",
+      key: "email",
+      // format: (value) => value.name,
+    },
+    {
+      label: "Role",
+      key: "role",
+      // format: format_date,
+    },
+    {
+      label: "Registered on",
+      key: "createdAt",
+      // format: (value) => `$${value}`,
+    },
+  ];
+
+  const fetchData = async (page = 1) => {
+    let { detail } = await getUsers(page, limit, filterValue);
+    setUsersData(detail);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [usersData.length, limit, filterValue]);
+  console.log(filterValue);
   return (
     <>
       <h3 className="pull-left bold uppercase black mt-2">Users</h3>
       <div className="clearfix" />
-      <h3 className="pull-left p_lg medium black mt-2">Users Log</h3>
+      {/* <h3 className="pull-left p_lg medium black mt-2">Users Log</h3>
       <div className="d-flex mt-3 align-items-center justify-content-between flex-wrap">
         <div className="d-flex align-items-center flex-wrap">
           <p className="grey">Show</p>
@@ -50,14 +90,24 @@ function Users() {
             }}
           />
         </div>
-      </div>
+      </div> */}
       <div className="card jost pad-20 mt-2 rounded-1">
         <div className="card-content collapse show">
           <div className="card-body table-responsive card-dashboard">
             <div className="clearfix" />
             <div className="clearfix" />
             <div>
-              <table className="table table-striped table-bordered zero-configuration">
+              <TableSearch
+                onSearch={(value) => setFilterValue(value)}
+                onFilterChange={(value) => setLimit(value)}
+                filterValues={[10, 50, 100]}
+              />
+              <Table
+                pageChanged={(page) => fetchData(page)}
+                fields={fields}
+                data={usersData}
+              />
+              {/* <table className="table table-striped table-bordered zero-configuration">
                 <thead>
                   <tr>
                     <th className="d-grey bold">Username</th>
@@ -112,7 +162,7 @@ function Users() {
                     );
                   })}
                 </tbody>
-              </table>
+              </table> */}
             </div>
           </div>
         </div>

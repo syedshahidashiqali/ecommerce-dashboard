@@ -4,13 +4,16 @@ import { getApi } from "../Helpers/api";
 export const useGetApi = (url) => {
   const [response, setResponse] = useState({});
 
+  const getData = async (page = 1) => {
+    const token = localStorage.getItem("TOKEN");
+    const data = await getApi(url, { "x-access-token": token });
+    setResponse(data);
+  };
   useEffect(() => {
-    const getData = async () => {
-      const token = localStorage.getItem("TOKEN");
-      const data = await getApi(url, { "x-access-token": token });
-      setResponse(data);
-    };
     getData();
   }, [response.status, response.message, url]);
-  return response;
+  return {
+    ...response,
+    getData
+  };
 };

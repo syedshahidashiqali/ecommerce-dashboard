@@ -1,17 +1,33 @@
+import { useEffect } from "react";
+import { useState } from "react";
 import {
-  ALLORDERS,
-  ALLPRODUCTS,
-  TOTALSALES,
-  USERS,
-} from "../assets/Helpers/apiUrls";
-import { useGetApi } from "../assets/Hooks/useGetApi";
+  getOrders,
+  getProducts,
+  getCustomers,
+  getTotalSales,
+} from "../assets/Services/Dashboard";
 
 function Dashboard() {
-  const orders = useGetApi(ALLORDERS);
-  const products = useGetApi(ALLPRODUCTS);
-  const users = useGetApi(`${USERS}/?limit=100&page=1`);
-  const total = useGetApi(TOTALSALES);
+  const [orders, setOrders] = useState(0);
+  const [products, setProducts] = useState(0);
+  const [customers, setCustomers] = useState(0);
+  const [totalSales, setTotalSales] = useState(0);
 
+  const fetchData = async () => {
+    const { detail: orders } = await getOrders();
+    const { detail: products } = await getProducts();
+    const { detail: customers } = await getCustomers();
+    const { detail: totalSales } = await getTotalSales();
+
+    setOrders(orders);
+    setProducts(products);
+    setCustomers(customers);
+    setTotalSales(totalSales);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [orders, products, customers, totalSales.length]);
   return (
     <>
       <section id="configuration">
@@ -28,9 +44,7 @@ function Dashboard() {
                       alt=""
                       className="img-fluid mt-1"
                     />
-                    <h3 className="mt-1">
-                      ${total.status === true && total?.detail[0]?.totalSales}
-                    </h3>
+                    <h3 className="mt-1">${totalSales[0]?.totalSales}</h3>
                   </div>
                 </div>
               </div>
@@ -43,7 +57,7 @@ function Dashboard() {
                       alt=""
                       className="img-fluid mt-1"
                     />
-                    <h3 className="mt-1">{orders?.detail?.length}</h3>
+                    <h3 className="mt-1">{orders}</h3>
                   </div>
                 </div>
               </div>
@@ -56,7 +70,7 @@ function Dashboard() {
                       alt=""
                       className="img-fluid mt-1"
                     />
-                    <h3 className="mt-1">{products?.detail?.length}</h3>
+                    <h3 className="mt-1">{products}</h3>
                   </div>
                 </div>
               </div>
@@ -69,36 +83,13 @@ function Dashboard() {
                       alt=""
                       className="img-fluid mt-1"
                     />
-                    <h3 className="mt-1">{users?.detail?.docs?.length}</h3>
+                    <h3 className="mt-1">{customers}</h3>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        {/* <div className="card  pad-20 mt-2 rounded-0">
-          <div className="card-content collapse show">
-            <div className="card-body table-responsive card-dashboard">
-              <h1 className="pull-left black bold mt-2">
-                <i className="fas fa-chart-bar" /> Sales Analytics
-              </h1>
-              <div className="bottom tickets mt-5">
-                <div className="chart-main position-relative">
-                  <div className="row">
-                    <div className="col-12 col-xl-11">
-                      <div className="card-body">
-                        <div
-                          className="height-400 echart-container"
-                          id="basic-column"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
       </section>
     </>
   );

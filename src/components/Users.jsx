@@ -56,7 +56,6 @@ function Users() {
   useEffect(() => {
     fetchData();
   }, [usersData.length, limit, filterValue]);
-  console.log(filterValue);
   return (
     <>
       <h3 className="pull-left bold uppercase black mt-2">Users</h3>

@@ -4,7 +4,7 @@ import { getApi } from "../Helpers/api";
 export const useGetApi = (url) => {
   const [response, setResponse] = useState({});
 
-  const getData = async (page = 1) => {
+  const getData = async () => {
     const token = localStorage.getItem("TOKEN");
     const data = await getApi(url, { "x-access-token": token });
     setResponse(data);
@@ -12,8 +12,5 @@ export const useGetApi = (url) => {
   useEffect(() => {
     getData();
   }, [response.status, response.message, url]);
-  return {
-    ...response,
-    getData
-  };
+  return response
 };

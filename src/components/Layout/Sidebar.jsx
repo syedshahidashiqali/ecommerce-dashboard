@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function Sidebar() {
-  const [isActive, setIsActive] = useState(false);
-
+  const [isActive, setIsActive] = useState("Dashboard");
+  const location = useLocation();
   useEffect(() => {
-    const path = window.location.pathname;
-    if (path === "/dashboard") {
+    if (location.pathname === "/dashboard") {
       setIsActive("Dashboard");
     }
-  }, []);
+    if (location.pathname === "/users") {
+      setIsActive("Users");
+    }
+    if (location.pathname === "/products") {
+      setIsActive("Products");
+    }
+    if (location.pathname === "/orders") {
+      setIsActive("Orders");
+    }
+  }, [location]);
 
   const navbarItems = [
     {
@@ -28,12 +36,6 @@ function Sidebar() {
       title: "Products",
       path: "/products",
       icon: "images/products-icon.png",
-      cName: "nav-item",
-    },
-    {
-      title: "Reviews",
-      path: "/products/reviews",
-      icon: "images/reviews.png",
       cName: "nav-item",
     },
     {
@@ -58,10 +60,10 @@ function Sidebar() {
           {navbarItems?.map((item, index) => {
             return (
               <li
+                key={index}
                 className={`nav-item ${
                   isActive === item?.title ? "active" : ""
                 }`}
-                key={index}
               >
                 <Link to={item?.path}>
                   <img src={item?.icon} alt="" className="img-fluid" />

@@ -1,27 +1,11 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { getApi, updateApi } from "../assets/Helpers/api";
-import { PRODUCT, PRODUCTUPDATE } from "../assets/Helpers/apiUrls";
-import { useGetApi } from "../assets/Hooks/useGetApi";
-import { getProduct } from "../assets/Services/Products";
+import { getProduct, updateProduct } from "../assets/Services/Products";
 
 function ProductEdit() {
   const { productId } = useParams();
   const [product, setProduct] = useState({});
-
-  // const fetchData = async () => {
-  //   const data = await getApi(`${PRODUCT}/${productId}`);
-  //   console.log("data iss:", data);
-  //   setProduct(data);
-  // };
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, [product?.message]);
-  // console.log(product);
-
-  // const product = useGetApi(`${PRODUCT}/${productId}`);
 
   const fetchProduct = async () => {
     const { detail } = await getProduct(productId);
@@ -31,7 +15,6 @@ function ProductEdit() {
   useEffect(() => {
     fetchProduct();
   }, [product?._id]);
-  console.log(product);
 
   const [productData, setProductData] = useState({
     name: "",
@@ -45,24 +28,15 @@ function ProductEdit() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const body = {};
-    if (productData.name !== "") {
-      body.name = productData.name;
-    }
-    if (productData.description !== "") {
-      body.description = productData.description;
-    }
-    if (productData.price !== "") {
-      body.price = productData.price;
-    }
-    const data = await updateApi(`${PRODUCTUPDATE}/${productId}`, body);
+
+    const data = await updateProduct(productId, productData);
 
     if (data?.status === true) {
       alert("Product has been updated");
+      fetchProduct();
     } else {
       alert(data.message);
     }
-    console.log(data);
   };
   return (
     <>

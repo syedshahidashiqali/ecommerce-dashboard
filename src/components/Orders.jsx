@@ -1,6 +1,3 @@
-import { ALLORDERS } from "../assets/Helpers/apiUrls";
-import { useGetApi } from "../assets/Hooks/useGetApi";
-import Moment from "react-moment";
 import { Link } from "react-router-dom";
 import Table from "./Table";
 import { useState } from "react";
@@ -10,7 +7,6 @@ import { format_date } from "../assets/Utils/helpers";
 
 function Orders() {
   const [orders, setOrders] = useState([]);
-  // const orders = useGetApi(ALLORDERS);
   const fields = [
     {
       label: "Order Date",
@@ -33,9 +29,7 @@ function Orders() {
 
   useEffect(() => {
     fetchData();
-  }, orders?.length);
-
-  console.log(orders);
+  }, [orders?.length]);
   return (
     <>
       <h3 className="pull-left bold uppercase black mt-2">Orders</h3>
@@ -62,32 +56,13 @@ function Orders() {
           role="tabpanel"
           aria-labelledby="pills-home-tab"
         >
-          <div className="d-flex mt-3 align-items-center justify-content-between flex-wrap">
-            <div className="d-flex align-items-center flex-wrap">
-              <p className="grey">Show</p>
-              <select className="entry-select ml-1" name="" id="">
-                <option value="">10</option>
-                <option value="">50</option>
-                <option value="">100</option>
-              </select>
-              <p className="grey ml-1">Entries</p>
-            </div>
-            <input
-              type="text"
-              className="ml-1 px-1 h-45 py-0"
-              name=""
-              id=""
-              placeholder="Search"
-            />
-          </div>
+          <div className="d-flex mt-3 align-items-center justify-content-between flex-wrap"></div>
           <div className="card jost pad-20 mt-2 rounded-1">
             <div className="card-content collapse show">
               <div className="card-body table-responsive card-dashboard">
                 <div className="clearfix" />
-                <div className="clearfix" />
                 <div className="">
                   <Table
-                    // pageChanged={(page) => fetchData(page)}
                     fields={fields}
                     data={orders}
                     hasPagination={false}
@@ -127,74 +102,12 @@ function Orders() {
                       </td>
                     )}
                   />
-                  {/* <table className="table table-striped table-bordered zero-configuration">
-                    <thead>
-                      <tr>
-                        <th className="d-grey bold">Order ID</th>
-                        <th className="d-grey bold">Order Date</th>
-                        <th className="d-grey bold">Address</th>
-                        <th className="d-grey bold">Customer ID</th>
-                        <th className="d-grey bold">action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {orders?.detail?.length >= 1 &&
-                        orders?.detail.map((order) => {
-                          return (
-                            <tr key={order?._id}>
-                              <td className="py-1">{order?._id}</td>
-                              <td className="py-1">
-                                <Moment format="YYYY/MM/DD">
-                                  {order?.createdAt}
-                                </Moment>
-                              </td>
-                              <td className="py-1">{order?.address}</td>
-                              <td className="py-1">{order?.userId}</td>
-                              <td className="py-1">
-                                <div className="btn-group mr-1 mb-1">
-                                  <button
-                                    type="button"
-                                    className="btn dropdown-toggle btn-drop-table btn-sm"
-                                    data-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="false"
-                                  >
-                                    <i className="fa fa-ellipsis-v" />
-                                  </button>
-                                  <div
-                                    className="dropdown-menu"
-                                    x-placement="bottom-start"
-                                    style={{
-                                      position: "absolute",
-                                      transform: "translate3d(0px, 21px, 0px)",
-                                      top: 0,
-                                      left: 0,
-                                      willChange: "transform",
-                                    }}
-                                  >
-                                    <Link
-                                      to={`/orders/${order?._id}`}
-                                      className="dropdown-item uppercase"
-                                      // href="orders-received-view.html"
-                                    >
-                                      <i className="fa fa-eye" />
-                                      View order
-                                    </Link>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </table> */}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="clearfix" />
     </>
   );
 }

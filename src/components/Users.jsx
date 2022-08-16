@@ -1,27 +1,23 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { deleteApi, getApi } from "../assets/Helpers/api";
-import { DELUSERS, USERS } from "../assets/Helpers/apiUrls";
-import { useGetApi } from "../assets/Hooks/useGetApi";
-import Moment from "react-moment";
-import { useTable } from "react-table";
+import { useEffect, useState } from "react";
+import { deleteApi } from "../assets/Helpers/api";
+import { DELUSERS } from "../assets/Helpers/apiUrls";
 import Table from "./Table";
 import { format_date } from "../assets/Utils/helpers";
-import axios from "axios";
 import { getUsers } from "../assets/Services/Users";
 import TableSearch from "./TableSearch";
+import { deleteUser } from "../assets/Services/Users";
 
 function Users() {
   const [limit, setLimit] = useState(10);
-  const [searchProd, setSearchProd] = useState("");
-  const [userUrl, setUserUrl] = useState(USERS);
   const [usersData, setUsersData] = useState([]);
   const [filterValue, setFilterValue] = useState(null);
 
   const delUser = async (id) => {
-    const res = await deleteApi(`${DELUSERS}/${id}`, "DELETE", {
-      "x-access-token": localStorage.getItem("TOKEN"),
-    });
-    console.log(res);
+    const res = await deleteUser(id);
+    if (res?.status === true) {
+      alert(res?.message);
+      fetchData();
+    }
   };
 
   const fields = [
@@ -60,12 +56,11 @@ function Users() {
         <div className="card-content collapse show">
           <div className="card-body table-responsive card-dashboard">
             <div className="clearfix" />
-            <div className="clearfix" />
             <div>
               <TableSearch
                 onSearch={(value) => setFilterValue(value)}
                 onFilterChange={(value) => setLimit(value)}
-                filterValues={[1, 10, 50, 100]}
+                filterValues={[10, 50, 100]}
               />
               <Table
                 pageChanged={(page) => fetchData(page)}

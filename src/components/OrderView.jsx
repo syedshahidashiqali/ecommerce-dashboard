@@ -1,13 +1,24 @@
 import { useParams } from "react-router-dom";
-import { ORDER } from "../assets/Helpers/apiUrls";
-import { useGetApi } from "../assets/Hooks/useGetApi";
 import Moment from "react-moment";
 import { calculateTotal } from "../assets/Utils/helpers";
+import { useState } from "react";
+import { getAnOrder } from "../assets/Services/Orders";
+import { useEffect } from "react";
 
 function OrderView() {
   const { orderId } = useParams();
-  const order = useGetApi(`${ORDER}/${orderId}`);
+  const [order, setOrder] = useState({});
+  const fetchData = async () => {
+    const { detail } = await getAnOrder(orderId);
+    setOrder(detail);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [order?._id]);
+
   const subTotal = calculateTotal(order?.detail?.products);
+
   return (
     <>
       <a href="orders.html">
@@ -25,7 +36,7 @@ function OrderView() {
             <div className="d-flex mt-2 justify-content-between align-items-center">
               <h4 className="p_sm medium">Order Date </h4>
               <p className="p_sm l-grey">
-                <Moment format="DD-MM-YYYY">{order?.detail?.createdAt}</Moment>
+                <Moment format="DD-MM-YYYY">{order?.createdAt}</Moment>
               </p>
             </div>
             <div className="d-flex mt-2 justify-content-between align-items-center">
@@ -37,7 +48,7 @@ function OrderView() {
             <h4 className="p_sm medium clr-orange">Account Information </h4>
             <div className="d-flex mt-2 justify-content-between align-items-center">
               <h4 className="p_sm medium">Customer Address </h4>
-              <p className="p_sm l-grey">{order?.detail?.address}</p>
+              <p className="p_sm l-grey">{order?.address}</p>
             </div>
             <div className="d-flex mt-2 justify-content-between align-items-center">
               <h4 className="p_sm medium">Customer Email</h4>
@@ -48,11 +59,11 @@ function OrderView() {
         <h4 className="mt-3 black p_lg medium">Address Information </h4>
         <hr />
         <h4 className="p_sm medium clr-orange">Address</h4>
-        <p className="p_sm mt-1 l-grey">{order?.detail?.address}</p>
+        <p className="p_sm mt-1 l-grey">{order?.address}</p>
         <h4 className="mt-3 black p_lg medium">Order Information </h4>
         <hr />
-        {order?.detail?.products.length >= 1 &&
-          order?.detail?.products.map((product) => {
+        {order?.products?.length >= 1 &&
+          order?.products.map((product) => {
             const total = product?.price * product?.quantity;
             return (
               <div

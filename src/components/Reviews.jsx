@@ -1,11 +1,4 @@
 import { useParams } from "react-router-dom";
-import {
-  ALLRATINGCOUNTS,
-  ALLREVIEWS,
-  AVERAGERATING,
-  PRODUCT,
-} from "../assets/Helpers/apiUrls";
-import { useGetApi } from "../assets/Hooks/useGetApi";
 import Moment from "react-moment";
 import { useEffect, useState } from "react";
 import {
@@ -21,6 +14,7 @@ function Reviews() {
   const [product, setProduct] = useState([]);
   const [avgRating, setAvgRating] = useState([]);
   const [allRatings, setAllRatings] = useState([]);
+
   const fetchData = async () => {
     const { detail: reviews } = await getReviews(productId);
     const { detail: product } = await getProduct(productId);
@@ -39,19 +33,7 @@ function Reviews() {
     <>
       <h3 className="pull-left bold uppercase black mt-2">Products</h3>
       <div className="clearfix" />
-      <div className="row align-items-center mt-3">
-        {/* <img
-          src="/images/review-1.png"
-          alt=""
-          className="ml-1 img-fluid review-img"
-        />
-        <div className="ml-1">
-          <a href="" className="p_sm medium">
-            View Profile
-          </a>
-          <p className="p_sm l-grey">Mark Carson</p>
-        </div> */}
-      </div>
+      <div className="row align-items-center mt-3"></div>
       <hr />
       <div className="clearfix" />
       <h4 className="pull-left medium p_lg black">{product?.name}</h4>
@@ -262,13 +244,6 @@ function Reviews() {
                         </p>
                       </div>
                     </div>
-                  </div>
-                  <div className="offset-xl-4 mt-1 text-right offset-lg-2 col-lg-2">
-                    <a href="" data-toggle="modal" data-target="#reviewDel">
-                      <button className="px-1 py-1">
-                        <i className="fas fa-trash" />
-                      </button>
-                    </a>
                   </div>
                 </div>
               </div>

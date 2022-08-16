@@ -16,6 +16,26 @@ export const getProduct = async (productId) => {
   return data
 }
 
+export const updateProduct = async (productId, data) => {
+  try {
+    let body = {}
+    if (data.name !== "") {
+      body.name = data.name;
+    }
+    if (data.description !== "") {
+      body.description = data.description;
+    }
+    if (data.price !== "") {
+      body.price = data.price;
+    }
+    const response = await axios.put(`/products/product/${productId}`, body)
+
+    return response.data
+  } catch (err) {
+    return err.response.data;
+  }
+}
+
 export const getReviews = async (productId) => {
   const { data } = await axios.get(`/reviews/product/${productId}`);
   return data

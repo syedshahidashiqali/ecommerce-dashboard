@@ -3,6 +3,10 @@ import { Helmet } from "react-helmet";
 import { postApi } from "../assets/Helpers/api";
 import { LOGIN } from "../assets/Helpers/apiUrls";
 import { useNavigate } from "react-router-dom";
+// import GoogleLogin from "react-google-login";
+import { GoogleLogin } from "@react-oauth/google";
+import axios from "axios";
+import { setAccessToken } from "../assets/Utils/helpers";
 
 function Login() {
   const navigate = useNavigate();
@@ -46,6 +50,26 @@ function Login() {
     setShowPassword(!showPassword);
   };
 
+  const successLogin = async (response) => {
+    console.log("Succcess Login:", response);
+  };
+  const errorLogin = async (response) => {
+    console.log("Error Login:", response);
+  };
+  const handleLogin = async (response) => {
+    // const res = await fetch("/api/v1/auth/google", {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     token: googleData.tokenId,
+    //   }),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+    // const data = await res.json();
+    // console.log(data);
+    // store returned user somehow
+  };
   return (
     <>
       <Helmet>
@@ -119,6 +143,30 @@ function Login() {
                         <i className="fa fa-arrow-circle-left mr-2" /> Back To
                         Website
                       </a>
+                    </div>
+                    <div className="mt-5 text-center">
+                      <GoogleLogin
+                        onSuccess={async (credentialResponse) => {
+                          console.log(credentialResponse);
+                          const { data } = await axios.post(
+                            "http://localhost:8000/api/v1/auth/googleLogin",
+                            { token: credentialResponse?.credential }
+                          );
+                          console.log("response data is:", data);
+                          setAccessToken(data?.detail?.token);
+                          navigate("/dashboard", { replace: true });
+                        }}
+                        onError={() => {
+                          console.log("Login Failed");
+                        }}
+                      />
+                      {/* <GoogleLogin
+                        clientId="74131798307-mil5equd3kte3s5vu61i8c10grl8eg44.apps.googleusercontent.com"
+                        buttonText="Log in with Google"
+                        onSuccess={successLogin}
+                        onFailure={errorLogin}
+                        cookiePolicy={"single_host_origin"}
+                      /> */}
                     </div>
                   </div>
                 </div>

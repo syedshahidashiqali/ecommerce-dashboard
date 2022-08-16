@@ -13,6 +13,7 @@ function Router() {
       <Route path="/" element={<LoginPage />} />
       {Object.values(data).map(({ component: Component, path }) => (
         <Route
+          key={path}
           path={path}
           element={
             <PrivateRoutes>

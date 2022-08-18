@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
-import { postApi } from "../assets/Helpers/api";
-import { LOGIN } from "../assets/Helpers/apiUrls";
 import { useNavigate } from "react-router-dom";
-// import GoogleLogin from "react-google-login";
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-import { setAccessToken } from "../assets/Utils/helpers";
+import { getAccessToken, setAccessToken } from "../assets/Utils/helpers";
+import { login } from "../assets/Services/Auth";
 
 function Login() {
   const navigate = useNavigate();
@@ -17,11 +15,10 @@ function Login() {
   });
 
   useEffect(() => {
-    const token = localStorage.getItem("TOKEN");
-    if (token) {
+    if (getAccessToken()) {
       navigate("/dashboard", { replace: true });
     }
-  }, [localStorage.getItem("TOKEN")]);
+  }, [getAccessToken()]);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -31,12 +28,13 @@ function Login() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const data = await postApi(LOGIN, {
-      email: formData.email,
-      password: formData.password,
+    const data = await login({
+      email: formData?.email,
+      password: formData?.password,
     });
     if (data.status === true) {
-      localStorage.setItem("TOKEN", data.detail);
+      setAccessToken(data?.detail);
+      axios.defaults.headers.common["x-access-token"] = getAccessToken();
       navigate("/dashboard", { replace: true });
     } else {
       alert(data.message);
@@ -48,27 +46,6 @@ function Login() {
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
-  };
-
-  const successLogin = async (response) => {
-    console.log("Succcess Login:", response);
-  };
-  const errorLogin = async (response) => {
-    console.log("Error Login:", response);
-  };
-  const handleLogin = async (response) => {
-    // const res = await fetch("/api/v1/auth/google", {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     token: googleData.tokenId,
-    //   }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
-    // const data = await res.json();
-    // console.log(data);
-    // store returned user somehow
   };
   return (
     <>
@@ -144,7 +121,7 @@ function Login() {
                         Website
                       </a>
                     </div>
-                    <div className="mt-5 text-center">
+                    <div className="mt-5 text-center d-flex justify-content-center">
                       <GoogleLogin
                         onSuccess={async (credentialResponse) => {
                           console.log(credentialResponse);
@@ -154,19 +131,14 @@ function Login() {
                           );
                           console.log("response data is:", data);
                           setAccessToken(data?.detail?.token);
+                          axios.defaults.headers.common["x-access-token"] =
+                            getAccessToken();
                           navigate("/dashboard", { replace: true });
                         }}
                         onError={() => {
                           console.log("Login Failed");
                         }}
                       />
-                      {/* <GoogleLogin
-                        clientId="74131798307-mil5equd3kte3s5vu61i8c10grl8eg44.apps.googleusercontent.com"
-                        buttonText="Log in with Google"
-                        onSuccess={successLogin}
-                        onFailure={errorLogin}
-                        cookiePolicy={"single_host_origin"}
-                      /> */}
                     </div>
                   </div>
                 </div>

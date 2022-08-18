@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { deleteApi } from "../assets/Helpers/api";
-import { DELUSERS } from "../assets/Helpers/apiUrls";
 import Table from "./Table";
 import { format_date } from "../assets/Utils/helpers";
 import { getUsers } from "../assets/Services/Users";

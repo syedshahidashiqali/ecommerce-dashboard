@@ -1,14 +1,19 @@
 import { useState, useEffect } from "react";
-import { getApi } from "../Helpers/api";
+import axios from "../Utils/authHeader";
 
 export const useGetApi = (url) => {
   const [response, setResponse] = useState({});
 
   const getData = async () => {
-    const token = localStorage.getItem("TOKEN");
-    const data = await getApi(url, { "x-access-token": token });
-    setResponse(data);
+    try {
+      const { data } = await axios.get('/products/add');
+      setResponse(data);
+      return response
+    } catch (err) {
+      return err.response.data;
+    }
   };
+
   useEffect(() => {
     getData();
   }, [response.status, response.message, url]);

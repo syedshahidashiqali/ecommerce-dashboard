@@ -16,6 +16,16 @@ export const getProduct = async (productId) => {
   return data
 }
 
+export const addProduct = async (bodyData) => {
+  try {
+    const { data } = await axios.post('/products/add', bodyData);
+    return data;
+  } catch (err) {
+    return err.response.data;
+  }
+
+}
+
 export const updateProduct = async (productId, data) => {
   try {
     let body = {}

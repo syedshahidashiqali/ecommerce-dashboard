@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { postApi } from "../assets/Helpers/api";
-import { CREATEPRODUCT } from "../assets/Helpers/apiUrls";
+import { addProduct } from "../assets/Services/Products";
 
 function ProductCreate() {
   const navigate = useNavigate();
@@ -17,7 +16,7 @@ function ProductCreate() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const data = await postApi(CREATEPRODUCT, {
+    const data = await addProduct({
       name: productData.title,
       price: productData.price,
       description: productData.description,

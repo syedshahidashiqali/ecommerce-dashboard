@@ -1,5 +1,4 @@
 import axios from "../Utils/axios";
-import { setAccessToken } from "../Utils/helpers";
 
 export const login = async (bodyData) => {
   try {
